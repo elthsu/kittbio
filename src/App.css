@@ -1,9 +1,11 @@
 .App {
   text-align: center;
+  font-family: aktiv-grotesk;
 }
 
 .App-logo {
-  height: 40vmin;
+  height: 70px;
+  margin: 0 25px;
   pointer-events: none;
 }
 
@@ -23,6 +25,62 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
+
+.App-header button {
+  height: 70px;
+  width: 200px;
+  margin: 20px 5px 0;
+  font-size: 30px;
+  background-color: transparent;
+  color: white;
+  border: 5px solid white;
+  border-radius: 10px;
+  font-family: aktiv-grotesk;
+  font-weight: 600;
+}
+
+.App-header button:hover {
+  cursor: pointer;
+}
+
+.App-header button:focus {
+  outline: none;
+}
+
+.App-header button:active {
+  background-color: white;
+  color: #282c34;
+}
+
+.App-header input {
+  width: 50%;
+  height: 50px;
+  margin: 0 auto;
+  margin-top: 20px;
+  font-family: aktiv-grotesk;
+  font-size: 30px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.App-header select {
+  width: 50%;
+  height: 50px;
+  margin: 0 auto;
+  margin-top: 20px;
+  font-family: aktiv-grotesk;
+  font-size: 16px;
+  font-weight: 600;
+  text-align: center;
+  padding: 0 10px;
+}
+
+.App-header input:focus,
+.App-header select:focus {
+  outline: none;
+}
+
+
 
 .App-link {
   color: #61dafb;
