@@ -14,6 +14,10 @@ function App() {
   const [destinationTimeZone, setDestinationTimeZone] = useState("")
   const [departureTime, setDepartureTime] = useState("")
   const [arrivalTime, setArrivalTime] = useState("")
+  const [newNapStart, setNewNapStart] = useState("")
+  const [newNapEnd, setNewNapEnd] = useState("")
+  const [newNapStartDestinationTimeZone, setNewNapStartDestinationTimeZone] = useState("")
+  const [newNapEndDestinationTimeZone, setNewNapEndDestinationTimeZone] = useState("")
 
 
   const [positiveResult, setPostiveResult] = useState(true)
@@ -49,10 +53,14 @@ function App() {
     setDestinationTimeZone("")
     setDepartureTime("")
     setArrivalTime("")
+    setNewNapStart("")
+    setNewNapEnd("")
+    setNewNapStartDestinationTimeZone("")
+    setNewNapEndDestinationTimeZone("")
   }
 
   const handleGenerateResult = () => {
-    let wakeuptime, bedtime, wakefullness, nextDay, napLength, napPlacement, napStart, napMidPoint, napEnd, napStartDestinationTimeZone, napEndDestinationTimeZone, napStartMod
+    let wakeuptime, bedtime, wakefullness, nextDay, napLength, napPlacement, napStart, napMidPoint, napEnd, napStartDestinationTimeZone, napEndDestinationTimeZone, napStartMod, napEndMod
 
     if(moment(usualWakeTime, 'H:mm').isBefore(moment(flightLatest, 'H:mm'))){
       wakeuptime = usualWakeTime
@@ -130,27 +138,119 @@ function App() {
 
     if(moment(napStart, "HH:mm").diff(moment(departureTime, "HH:mm"), "minutes") > -240 && moment(napStart, "HH:mm").diff(moment(departureTime, "HH:mm"), "minutes") < 60){
       napStartMod = true
+      napEndMod = true
+      const temp = new Promise((resolve, reject) => {
+        recheck(napStart, napEnd, napLength, resolve)
+      })
+
+      temp.then((data)=>{
+        setNewNapStartDestinationTimeZone(moment(data.newNapTime, "H:mm").add((Math.abs(+(destinationTimeZone.split(":")[0] - +homeTimeZone.split(":")[0])) * 60), "minutes").format("HH:mm"))
+        setNewNapEndDestinationTimeZone(moment(data.newNapTimeEnd, "H:mm").add((Math.abs(+(destinationTimeZone.split(":")[0] - +homeTimeZone.split(":")[0])) * 60), "minutes").format("HH:mm"))
+        setNewNapStart(data.newNapTime)
+        setNewNapEnd(data.newNapTimeEnd)
+      })    
+    }
+    else if(moment(arrivalTime, "HH:mm").diff(moment(napEnd, "HH:mm"), "minutes") < 120 && moment(arrivalTime, "HH:mm").diff(moment(napEnd, "HH:mm"), "minutes") > -60){
+      napStartMod = true
+      napEndMod = true
+      const temp = new Promise((resolve, reject) => {
+        recheckNapEnd(napStart, napEnd, napLength, resolve)
+      })
+
+      temp.then((data)=>{
+        setNewNapStartDestinationTimeZone(moment(data.newNapTime, "H:mm").add((Math.abs(+(destinationTimeZone.split(":")[0] - +homeTimeZone.split(":")[0])) * 60), "minutes").format("HH:mm"))
+        setNewNapStart(data.newNapTime)
+        setNewNapEnd(data.newNapTimeEnd)
+        setNewNapEndDestinationTimeZone(moment(data.newNapTimeEnd, "H:mm").add((Math.abs(+(destinationTimeZone.split(":")[0] - +homeTimeZone.split(":")[0])) * 60), "minutes").format("HH:mm"))
+      })   
     }
     else {
       napStartMod = false
+      napEndMod = false
     } 
+    
+    if (newNapStart && !newNapEnd) {
+      return (
+        <>
+        <div style={{fontWeight: "bold"}}>Output: {(!napStartMod) ? 'Yes, the nap can be placed without modifying the time.' : 'The nap cannot be placed without modifying the time.'}</div>
+          <> 
+            <div>Nap Start Time: {newNapStart} GMT{homeTimeZone} / {newNapStartDestinationTimeZone} GMT{destinationTimeZone}</div>
+            <div>Nap End Time: {napEnd} GMT{homeTimeZone} / {napEndDestinationTimeZone} GMT{destinationTimeZone}</div>
+          </>
+        </>
+      )
+    }
+    else if (!newNapStart && newNapEnd) {
+      return (
+        <>
+        <div style={{fontWeight: "bold"}}>Output: {(!napStartMod) ? 'Yes, the nap can be placed without modifying the time.' : 'The nap cannot be placed without modifying the time.'}</div>
+          <> 
+            <div>Nap Start Time: {napStart} GMT{homeTimeZone} / {napStartDestinationTimeZone} GMT{destinationTimeZone}</div>
+            <div>Nap End Time: {newNapEnd} GMT{homeTimeZone} / {newNapEndDestinationTimeZone} GMT{destinationTimeZone}</div>
+          </>
+        </>
+      )
+    }
+    else if (newNapStart && newNapEnd) {
+      return (
+        <>
+        <div style={{fontWeight: "bold"}}>Output: {(!napStartMod) ? 'Yes, the nap can be placed without modifying the time.' : 'The nap cannot be placed without modifying the time.'}</div>
+          <> 
+            <div>Nap Start Time: {newNapStart} GMT{homeTimeZone} / {newNapStartDestinationTimeZone} GMT{destinationTimeZone}</div>
+            <div>Nap End Time: {newNapEnd} GMT{homeTimeZone} / {newNapEndDestinationTimeZone} GMT{destinationTimeZone}</div>
+          </>
+        </>
+      )
+    }
+    else {
+      return (
+        <>
+        <div style={{fontWeight: "bold"}}>Output: {(!napStartMod) ? 'Yes, the nap can be placed without modifying the time.' : 'The nap cannot be placed without modifying the time.'}</div>
+          <> 
+            <div>Nap Start Time: {napStart} GMT{homeTimeZone} / {napStartDestinationTimeZone} GMT{destinationTimeZone}</div>
+            <div>Nap End Time: {napEnd} GMT{homeTimeZone} / {napEndDestinationTimeZone} GMT{destinationTimeZone}</div>
+          </>
+        </>
+      )
+    }
+  }
 
-    console.log(napStart, moment(departureTime, "HH:mm").subtract(4, "hours").format("HH:mm"), moment(departureTime, "HH:mm").add(1, "hours").format("HH:mm"))
-
-    // console.log(moment(napStart, "HH:mm").isBetween(moment(departureTime, "HH:mm").subtract(4, "hours"), moment(departureTime, "HH:mm").add(1, "hours")))
-
-    return (
-      <>
-      <div style={{fontWeight: "bold"}}>Output: {(!napStartMod) ? 'Yes, the nap can be placed without modifying the time.' : 'The nap cannot be placed without modifying the time.'}</div>
-      { (positiveResult) 
-          ? <> 
-              <div>Nap Start Time: {napStart} GMT{homeTimeZone} / {napStartDestinationTimeZone} GMT{destinationTimeZone}</div>
-              <div>Nap End Time: {napEnd} GMT{homeTimeZone} / {napEndDestinationTimeZone} GMT{destinationTimeZone}</div>
-            </>
-          : null
+  const recheck = (napStart, napEnd, napLength, cb) => {
+    let newNapTime = moment(napStart, "HH:mm").add(15, "minutes").format("HH:mm")
+    if(moment(newNapTime, "HH:mm").diff(moment(departureTime, "HH:mm"), "minutes") > -240 && moment(newNapTime, "HH:mm").diff(moment(departureTime, "HH:mm"), "minutes") < 60){
+      recheck(newNapTime, napEnd, napLength, cb)
+    }
+    else {
+      let newNapTimeEnd = moment(newNapTime, "HH:mm").add(napLength, "minutes").format("HH:mm")
+      let newNapTimeEndAtDestination = moment(newNapTimeEnd, "H:mm").add((Math.abs(+(destinationTimeZone.split(":")[0] - +homeTimeZone.split(":")[0])) * 60), "minutes").format("HH:mm")
+      if(moment(arrivalTime, "HH:mm").diff(moment(newNapTimeEndAtDestination, "HH:mm"), "minutes") < 60 && moment(arrivalTime, "HH:mm").diff(moment(newNapTimeEndAtDestination, "HH:mm"), "minutes") > -120){
+        cb({newNapTime, newNapTimeEnd})
+        console.log("nap wont fit")      
       }
-      </>
-    )
+      else{
+        cb({newNapTime, newNapTimeEnd})
+      }
+    }
+  }
+
+
+  const recheckNapEnd = (napStart, napEnd, napLength, cb) => {
+    let newNapEndTime = moment(napEnd, "HH:mm").subtract(15, "minutes").format("HH:mm")
+    let newNapTimeEndAtDestination = moment(newNapEndTime, "H:mm").add((Math.abs(+(destinationTimeZone.split(":")[0] - +homeTimeZone.split(":")[0])) * 60), "minutes").format("HH:mm")
+
+    if(moment(arrivalTime, "HH:mm").diff(moment(newNapTimeEndAtDestination, "HH:mm"), "minutes") < 120 && moment(arrivalTime, "HH:mm").diff(moment(newNapTimeEndAtDestination, "HH:mm"), "minutes") > -60){
+      recheckNapEnd(napStart, newNapEndTime, napLength, cb)
+    }
+    else {
+      let newNapTime = moment(newNapEndTime, "HH:mm").subtract(napLength, "minutes").format("HH:mm")
+      if(moment(newNapTime, "HH:mm").diff(moment(departureTime, "HH:mm"), "minutes") > -240 && moment(newNapTime, "HH:mm").diff(moment(departureTime, "HH:mm"), "minutes") < 60){
+        cb({newNapTime, newNapEndTime})
+        console.log("nap wont fit")
+      }
+      else{
+        cb({newNapTime, newNapEndTime})
+      }
+    }
   }
 
   const pageContent = () => {
