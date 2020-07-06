@@ -1,11 +1,11 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "54df9cb40e093ab3d72fbe5183384ff1",
+    "revision": "063166e826b37e5bd2ebd22a583486c9",
     "url": "/kittbio/index.html"
   },
   {
-    "revision": "984f70b7357392a5fb26",
-    "url": "/kittbio/static/css/main.e6a1f02b.chunk.css"
+    "revision": "76c443f7cfaa561278d5",
+    "url": "/kittbio/static/css/main.8cddf80e.chunk.css"
   },
   {
     "revision": "2e440c472fc921156e0a",
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/kittbio/static/js/2.1a5187b3.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "984f70b7357392a5fb26",
-    "url": "/kittbio/static/js/main.4d90e469.chunk.js"
+    "revision": "76c443f7cfaa561278d5",
+    "url": "/kittbio/static/js/main.fd36522a.chunk.js"
   },
   {
     "revision": "d91c22def33a264e2d37",
