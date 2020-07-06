@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/kittbio/static/css/main.8cddf80e.chunk.css",
+    "main.css": "/kittbio/static/css/main.1693d57d.chunk.css",
     "main.js": "/kittbio/static/js/main.fd36522a.chunk.js",
     "main.js.map": "/kittbio/static/js/main.fd36522a.chunk.js.map",
     "runtime-main.js": "/kittbio/static/js/runtime-main.f84cdd3e.js",
@@ -8,15 +8,15 @@
     "static/js/2.1a5187b3.chunk.js": "/kittbio/static/js/2.1a5187b3.chunk.js",
     "static/js/2.1a5187b3.chunk.js.map": "/kittbio/static/js/2.1a5187b3.chunk.js.map",
     "index.html": "/kittbio/index.html",
-    "precache-manifest.f91bb3b5532971a5d3bf50214c40d0ff.js": "/kittbio/precache-manifest.f91bb3b5532971a5d3bf50214c40d0ff.js",
+    "precache-manifest.14de0216c2c28a08e3b12b748c37d5f2.js": "/kittbio/precache-manifest.14de0216c2c28a08e3b12b748c37d5f2.js",
     "service-worker.js": "/kittbio/service-worker.js",
-    "static/css/main.8cddf80e.chunk.css.map": "/kittbio/static/css/main.8cddf80e.chunk.css.map",
+    "static/css/main.1693d57d.chunk.css.map": "/kittbio/static/css/main.1693d57d.chunk.css.map",
     "static/js/2.1a5187b3.chunk.js.LICENSE.txt": "/kittbio/static/js/2.1a5187b3.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.f84cdd3e.js",
     "static/js/2.1a5187b3.chunk.js",
-    "static/css/main.8cddf80e.chunk.css",
+    "static/css/main.1693d57d.chunk.css",
     "static/js/main.fd36522a.chunk.js"
   ]
 }

@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/kittbio/precache-manifest.f91bb3b5532971a5d3bf50214c40d0ff.js"
+  "/kittbio/precache-manifest.14de0216c2c28a08e3b12b748c37d5f2.js"
 );
 
 self.addEventListener('message', (event) => {
