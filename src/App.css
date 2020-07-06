@@ -116,4 +116,11 @@
   .App-header img:nth-child(2){
     width: 80vw;
   }
+
+  .App-header button {
+    height: 35px;
+    width: 100px;
+    margin: 20px 5px 0;
+    font-size: 15px;
+  }
 }
