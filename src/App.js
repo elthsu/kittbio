@@ -224,8 +224,8 @@ function App() {
       let newNapTimeEnd = moment(newNapTime, "HH:mm").add(napLength, "minutes").format("HH:mm")
       let newNapTimeEndAtDestination = moment(newNapTimeEnd, "H:mm").add((Math.abs(+(destinationTimeZone.split(":")[0] - +homeTimeZone.split(":")[0])) * 60), "minutes").format("HH:mm")
       if(moment(arrivalTime, "HH:mm").diff(moment(newNapTimeEndAtDestination, "HH:mm"), "minutes") < 60 && moment(arrivalTime, "HH:mm").diff(moment(newNapTimeEndAtDestination, "HH:mm"), "minutes") > -120){
-        cb({newNapTime, newNapTimeEnd})
-        console.log("nap wont fit")      
+        modNapTime(newNapTime, newNapTimeEnd, cb)
+        console.log("nap wont fit recheck")      
       }
       else{
         cb({newNapTime, newNapTimeEnd})
@@ -245,7 +245,7 @@ function App() {
       let newNapTime = moment(newNapEndTime, "HH:mm").subtract(napLength, "minutes").format("HH:mm")
       if(moment(newNapTime, "HH:mm").diff(moment(departureTime, "HH:mm"), "minutes") > -240 && moment(newNapTime, "HH:mm").diff(moment(departureTime, "HH:mm"), "minutes") < 60){
         cb({newNapTime, newNapEndTime})
-        console.log("nap wont fit")
+        console.log("nap wont fit recheckend")
       }
       else{
         cb({newNapTime, newNapEndTime})
@@ -253,12 +253,18 @@ function App() {
     }
   }
 
+  const modNapTime = (newNapTime, newNapTimeEnd, cb) => {
+    let newEndTime = moment(newNapTimeEnd, "HH:mm").subtract(2, "hours").format("HH:mm")
+    console.log("258", newNapTime, newNapTimeEnd, newEndTime, cb )
+    cb({newNapTime, newNapTimeEnd:newEndTime})
+  }
+
   const pageContent = () => {
     switch (page) {
       case 1:
         return (
           <>
-            <div style={{display:"flex", flexDirection:"row"}}>
+            <div>
               <img src="https://images.squarespace-cdn.com/content/v1/5c7a2fd37d0c9126da3d843c/1562803135324-WLCCTL6QR2HA88Y618GE/ke17ZwdGBToddI8pDm48kIpdYUXyUPp68j8r-94H55uoCXeSvxnTEQmG4uwOsdIceAoHiyRoc52GMN5_2H8WpyR2vltzBlW4Cyl67bitASHy9QBakoD0epjUgC2DFGLhLAF3UQuW-eMj1sczAxf9yA/favicon.ico?format=" className="App-logo" alt="logo" />
               <img src="https://images.squarespace-cdn.com/content/5c7a2fd37d0c9126da3d843c/1562803231536-FVRID9H0HA2Z90PZO5WM/KITT-BIO-logo.png?content-type=image%2Fpng" alt="title" />  
             </div>

@@ -24,6 +24,12 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+  padding: 0 20px;
+}
+
+.App-header div {
+  display: flex;
+  flex-direction: row;
 }
 
 .App-header button {
@@ -92,5 +98,22 @@
   }
   to {
     transform: rotate(360deg);
+  }
+}
+
+
+@media only screen and (max-width: 600px) {
+  .App-header div {
+    flex-direction: column;
+  }
+  
+  .App-logo {
+    width: 70px;
+    align-self: center;
+    margin-bottom: 20px;
+  }
+
+  .App-header img:nth-child(2){
+    width: 80vw;
   }
 }
